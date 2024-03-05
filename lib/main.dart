@@ -10,9 +10,15 @@ import 'package:to_do_list/tabs/settings_tab/settings_tab.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   LanguageProvider languageProvider = LanguageProvider();
+  //shared preference
+  languageProvider.setItems();
 
   ThemeProvider themeProvider = ThemeProvider();
+  //shared preference
+  themeProvider.setItems();
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => languageProvider),
@@ -39,7 +45,7 @@ class MyApp extends StatelessWidget {
       themeMode: themeProvider.themeMode,
       initialRoute: Splash.routeName,
       routes: {
-        Splash.routeName: (_) => const Splash(),
+        Splash.routeName: (_) => Splash(),
         Home.routeName: (_) => const Home(),
         ListTab.routeName: (_) => const ListTab(),
         SettingsTab.routeName: (_) => const SettingsTab()

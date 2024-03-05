@@ -40,7 +40,7 @@ abstract class AppTheme {
           // showSelectedLabels: false,
           // showUnselectedLabels: false,
           selectedItemColor: primaryBlue,
-          unselectedItemColor: whiteColor),
+          unselectedItemColor: Colors.black12),
       textTheme: const TextTheme(
           titleLarge: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 30, color: primaryBlue),
@@ -53,7 +53,7 @@ abstract class AppTheme {
 
   //dark mode
   static ThemeData darkMode = ThemeData(
-      canvasColor: primaryDark,
+      canvasColor: primaryBlue,
       primaryColor: primaryDark,
       scaffoldBackgroundColor: primaryDark,
       appBarTheme: const AppBarTheme(
@@ -70,8 +70,8 @@ abstract class AppTheme {
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           // showSelectedLabels: false,
           // showUnselectedLabels: false,
-          selectedItemColor: primaryBlue,
-          unselectedItemColor: whiteColor),
+          selectedItemColor: primaryDark,
+          unselectedItemColor: Colors.white30),
       textTheme: const TextTheme(
           titleLarge: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 30, color: primaryBlue),

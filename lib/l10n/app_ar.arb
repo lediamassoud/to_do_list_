@@ -1,7 +1,16 @@
 {
-"title" : "قائمة المهام",
+"app_title" : "قائمة المهام",
 "add_new_task" : "قم بإضافة مهمة جديدة",
 "enter_your_task" : "إدخل مهمتك",
 "select_time" : "إختار الوقت",
-"done" : "إنتهت!"
+"done" : "إنتهت!",
+"title" : "عنوان",
+"description": "الوصف",
+"add": "أضف",
+"language" : "اللغة",
+"english" : "English",
+"arabic" : "العربية",
+"mode": "نمط",
+"light": "نهاري",
+"dark": "ليلي"
 }

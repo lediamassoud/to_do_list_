@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -21,20 +22,20 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text("Add New Task",
+          Text(context.l10n.add_new_task,
               style: AppTheme.bottomSheetTextStyle,
               textAlign: TextAlign.center),
           TextField(
             controller: titleController,
-            decoration: InputDecoration(labelText: "Title"),
+            decoration: InputDecoration(labelText: context.l10n.title),
           ),
           TextField(
             controller: descriptionController,
             decoration: InputDecoration(
-              labelText: "Description",
+              labelText: context.l10n.description,
             ),
           ),
-          const Text("Select Time"),
+          Text(context.l10n.select_time),
           const SizedBox(
             height: 12,
           ),
@@ -48,7 +49,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                 style: AppTheme.taskDescriptionTextStyle,
               )),
           const Spacer(),
-          ElevatedButton(onPressed: () {}, child: const Text("Add"))
+          ElevatedButton(onPressed: () {}, child: Text(context.l10n.add))
         ],
       ),
     );

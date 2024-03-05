@@ -22,14 +22,14 @@ abstract class AppTheme {
 
 //light mode
   static ThemeData lightMode = ThemeData(
-      canvasColor: primaryLight,
+      canvasColor: whiteColor,
       primaryColor: primaryLight,
-      scaffoldBackgroundColor: Colors.transparent,
+      scaffoldBackgroundColor: primaryLight,
       appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(
           color: blackColor,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: primaryBlue,
         elevation: 0,
         centerTitle: true,
       ),
@@ -50,4 +50,42 @@ abstract class AppTheme {
             fontWeight: FontWeight.w400,
             fontSize: 20,
           )));
+
+  //dark mode
+  static ThemeData darkMode = ThemeData(
+      canvasColor: primaryDark,
+      primaryColor: primaryDark,
+      scaffoldBackgroundColor: primaryDark,
+      appBarTheme: const AppBarTheme(
+        iconTheme: IconThemeData(
+          color: whiteColor,
+        ),
+        backgroundColor: primaryBlue,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: primaryBlue,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          // showSelectedLabels: false,
+          // showUnselectedLabels: false,
+          selectedItemColor: primaryBlue,
+          unselectedItemColor: whiteColor),
+      textTheme: const TextTheme(
+          titleLarge: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 30, color: primaryBlue),
+          titleMedium: TextStyle(
+              fontWeight: FontWeight.w500, fontSize: 25, color: blackLight),
+          titleSmall: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          )));
+
+//EdgeInsets for padding and margin style
+  static EdgeInsets customEdgeInsets(BuildContext context) {
+    return EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.height * 0.03,
+        vertical: MediaQuery.of(context).size.width * 0.03);
+  }
 }

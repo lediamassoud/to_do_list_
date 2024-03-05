@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_list/bottom_sheet/add_bottom_sheet.dart';
-import 'package:to_do_list/tabs/list_tab.dart';
-import 'package:to_do_list/tabs/settings_tab.dart';
+import 'package:to_do_list/extention_function/extention_function_l10n.dart';
+import 'package:to_do_list/tabs/list_tab/list_tab.dart';
+import 'package:to_do_list/tabs/settings_tab/settings_tab.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 class Home extends StatefulWidget {
@@ -24,9 +24,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.primaryLight,
+      //backgroundColor: AppTheme.primaryLight,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.title),
+        title: Text(context.l10n.app_title),
       ),
       body: tabs[currentTabIndex],
       floatingActionButton: buildFAB(),

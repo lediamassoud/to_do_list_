@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/tabs/to_do_widget.dart';
+import 'package:to_do_list/tabs/list_tab/to_do_widget.dart';
 
 class ListTab extends StatelessWidget {
   static const routeName = "toDoList";
@@ -14,7 +14,7 @@ class ListTab extends StatelessWidget {
             child: ListView.builder(
           itemCount: 100,
           itemBuilder: (context, index) {
-            return ToDoWidget();
+            return const ToDoWidget();
           },
         )),
       ],

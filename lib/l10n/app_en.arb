@@ -1,7 +1,16 @@
 {
-"title" : "To Do List",
+"app_title" : "To Do List",
 "add_new_task" : "Add New Task",
 "enter_your_task" : "Enter Your Task",
 "select_time" : "Select Time",
-"done" : "Done!"
+"done" : "Done!",
+"title" : "Title",
+"description": "Description",
+"add": "Add",
+"language" : "Language",
+"english" : "English",
+"arabic" : "العربية",
+"mode": "Mode",
+"light": "Light",
+"dark": "Dark"
 }

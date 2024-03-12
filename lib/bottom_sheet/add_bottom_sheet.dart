@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
+import 'package:to_do_list/firebase/firebase_functions.dart';
+import 'package:to_do_list/model/task_model.dart';
+import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -14,8 +19,11 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
+  late ListProvider listProvider;
+
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.45,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
@@ -49,7 +57,18 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                 style: AppTheme.taskDescriptionTextStyle,
               )),
           const Spacer(),
-          ElevatedButton(onPressed: () {}, child: Text(context.l10n.add))
+          //add button
+          ElevatedButton(
+              onPressed: () {
+                TaskModel task = TaskModel(
+                    title: titleController.text,
+                    description: descriptionController.text,
+                    date: selectedDate);
+                addToDoToFirebase(task);
+                //FirebaseFunctions.addTask(task);
+                Navigator.pop(context);
+              },
+              child: Text(context.l10n.add))
         ],
       ),
     );
@@ -64,5 +83,13 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
             lastDate: DateTime.now().add(const Duration(days: 365))) ??
         selectedDate);
     setState(() {});
+  }
+
+  //add data to firestore
+  void addToDoToFirebase(TaskModel task) {
+    CollectionReference toDoCollection =
+        FirebaseFirestore.instance.collection(TaskModel.collectionName);
+    listProvider.refreshToDos();
+    toDoCollection.doc().set(task.toJson());
   }
 }

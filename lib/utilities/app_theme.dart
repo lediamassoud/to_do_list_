@@ -85,7 +85,7 @@ abstract class AppTheme {
 //EdgeInsets for padding and margin style
   static EdgeInsets customEdgeInsets(BuildContext context) {
     return EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.height * 0.03,
+        horizontal: MediaQuery.of(context).size.height * 0.02,
         vertical: MediaQuery.of(context).size.width * 0.03);
   }
 }

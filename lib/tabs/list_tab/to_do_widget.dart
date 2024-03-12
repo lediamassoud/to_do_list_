@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/model/task_model.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 class ToDoWidget extends StatelessWidget {
-  const ToDoWidget({super.key});
+  TaskModel taskModel;
+
+  ToDoWidget({super.key, required this.taskModel});
 
   @override
   Widget build(BuildContext context) {
@@ -11,14 +14,8 @@ class ToDoWidget extends StatelessWidget {
         color: AppTheme.whiteColor,
         borderRadius: BorderRadius.circular(12),
       ),
-      margin: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.height * 0.04,
-        vertical: MediaQuery.of(context).size.height * 0.02,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.height * 0.02,
-        vertical: MediaQuery.of(context).size.height * 0.02,
-      ),
+      margin: AppTheme.customEdgeInsets(context),
+      padding: AppTheme.customEdgeInsets(context),
       child: Row(
         children: [
           Container(
@@ -29,7 +26,7 @@ class ToDoWidget extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.07,
             width: MediaQuery.of(context).size.height * 0.005,
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Expanded(
@@ -37,7 +34,7 @@ class ToDoWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "play basket ball",
+                  "${taskModel.title}",
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
@@ -47,17 +44,19 @@ class ToDoWidget extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  "description",
+                  "${taskModel.description}",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.01,
-                horizontal: MediaQuery.of(context).size.width * 0.04),
-            margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+            padding: AppTheme.customEdgeInsets(context),
+
+            ///EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01,horizontal: MediaQuery.of(context).size.width * 0.04)
+            margin: AppTheme.customEdgeInsets(context),
+
+            /// EdgeInsets.all(MediaQuery.of(context).size.width * 0.02)
             decoration: BoxDecoration(
               color: AppTheme.primaryBlue,
               borderRadius: BorderRadius.circular(4),

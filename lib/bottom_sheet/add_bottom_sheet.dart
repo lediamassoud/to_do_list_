@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
-import 'package:to_do_list/firebase/firebase_functions.dart';
 import 'package:to_do_list/model/task_model.dart';
 import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
@@ -66,6 +65,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     date: selectedDate);
                 addToDoToFirebase(task);
                 //FirebaseFunctions.addTask(task);
+                //listProvider.refreshToDos();
                 Navigator.pop(context);
               },
               child: Text(context.l10n.add))
@@ -89,7 +89,9 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   void addToDoToFirebase(TaskModel task) {
     CollectionReference toDoCollection =
         FirebaseFirestore.instance.collection(TaskModel.collectionName);
+    var docRef = toDoCollection.doc();
+    task.id = docRef.id;
+    docRef.set(task.toJson());
     listProvider.refreshToDos();
-    toDoCollection.doc().set(task.toJson());
   }
 }

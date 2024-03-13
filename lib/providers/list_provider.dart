@@ -6,6 +6,14 @@ import '../model/task_model.dart';
 class ListProvider extends ChangeNotifier {
   List<TaskModel> allTasks = [];
 
+  DateTime selectedDate = DateTime.now();
+
+  onSelectedDateChanged(DateTime newDateTime) {
+    selectedDate = newDateTime;
+    refreshToDos();
+    notifyListeners();
+  }
+
   refreshToDos() async {
     allTasks.clear();
     CollectionReference todoCollection =
@@ -18,9 +26,12 @@ class ListProvider extends ChangeNotifier {
       Timestamp dateAsTimestamp = json["date"];
       json["date"] = dateAsTimestamp.toDate();
       TaskModel task = TaskModel.fromJson(json);
-      allTasks.add(task);
-      print("======================================================");
-      print(allTasks);
+
+      if (task.date!.year == selectedDate.year &&
+          task.date!.month == selectedDate.month &&
+          task.date!.day == selectedDate.day) {
+        allTasks.add(task);
+      }
     }
     notifyListeners();
   }

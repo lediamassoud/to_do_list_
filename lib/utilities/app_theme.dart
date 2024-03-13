@@ -19,6 +19,10 @@ abstract class AppTheme {
       TextStyle(fontWeight: FontWeight.normal, fontSize: 14, color: blackLight);
   static const TextStyle bottomSheetTextStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: blackColor);
+  static const TextStyle unSelectedDateTimeTextStyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: blackColor);
+  static const TextStyle selectedDateTimeTextStyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: primaryBlue);
 
 //light mode
   static ThemeData lightMode = ThemeData(

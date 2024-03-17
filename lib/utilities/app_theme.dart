@@ -6,8 +6,10 @@ abstract class AppTheme {
   static const blackColor = Color(0xff141922);
   static const blackLight = Color(0xff200E32);
   static const primaryBlue = Color(0xff5D9CEC);
+  static const secondaryBlue = Color(0xffafd1fc);
   static const primaryLight = Color(0xffDFECDB);
   static const primaryDark = Color(0xff060E1E);
+  static const greenDone = Color(0xff61E757);
 
   //text style
 
@@ -23,6 +25,8 @@ abstract class AppTheme {
       TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: blackColor);
   static const TextStyle selectedDateTimeTextStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: primaryBlue);
+  static const TextStyle doneTextStyle =
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: greenDone);
 
 //light mode
   static ThemeData lightMode = ThemeData(
@@ -57,7 +61,7 @@ abstract class AppTheme {
 
   //dark mode
   static ThemeData darkMode = ThemeData(
-      canvasColor: primaryBlue,
+      canvasColor: secondaryBlue,
       primaryColor: primaryDark,
       scaffoldBackgroundColor: primaryDark,
       appBarTheme: const AppBarTheme(

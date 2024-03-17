@@ -12,5 +12,7 @@
 "arabic" : "العربية",
 "mode": "Mode",
 "light": "Light",
-"dark": "Dark"
+"dark": "Dark",
+"edit_task": "Edit Task",
+"save_changes": "Save Changes"
 }

@@ -37,8 +37,7 @@ class _ListTabState extends State<ListTab> {
             child: ListView.builder(
           itemCount: listProvider.allTasks.length,
           itemBuilder: (context, index) {
-            return ToDoWidget(
-                taskModel: listProvider.allTasks[index]); //ToDo:add in it tasks
+            return ToDoWidget(taskModel: listProvider.allTasks[index]);
           },
         )),
       ],

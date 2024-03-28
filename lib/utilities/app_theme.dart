@@ -26,7 +26,7 @@ abstract class AppTheme {
   static const TextStyle selectedDateTimeTextStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: primaryBlue);
   static const TextStyle doneTextStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: greenDone);
+      TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: greenDone);
 
 //light mode
   static ThemeData lightMode = ThemeData(

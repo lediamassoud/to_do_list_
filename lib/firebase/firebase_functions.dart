@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:to_do_list/model/task_model.dart';
 
 class FirebaseFunctions {
+  static const String collectionName = "Tasks";
   static List<TaskModel> allTasks = [];
 
   static CollectionReference<TaskModel> getTaskCollection() {
     return FirebaseFirestore.instance
-        .collection("Tasks")
+        .collection(collectionName)
         .withConverter<TaskModel>(
       fromFirestore: (snapshot, _) {
         return TaskModel.fromJson(snapshot.data()!);

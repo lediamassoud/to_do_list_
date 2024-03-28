@@ -1,26 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 
 import '../model/task_model.dart';
+import '../providers/list_provider.dart';
 import '../utilities/app_theme.dart';
 
-class EditTask extends StatelessWidget {
+class EditTask extends StatefulWidget {
   static const routeName = "edite_page";
 
+  const EditTask({super.key});
+
+  @override
+  State<EditTask> createState() => _EditTaskState();
+}
+
+class _EditTaskState extends State<EditTask> {
   DateTime selectedDate = DateTime.now();
+
   TextEditingController titleController = TextEditingController();
+
   TextEditingController descriptionController = TextEditingController();
 
-  EditTask({super.key});
+  late ListProvider listProvider;
+  late TaskModel editTask;
 
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
+
+    editTask = ModalRoute.of(context)!.settings.arguments as TaskModel;
+    titleController.text = editTask.title!;
+    descriptionController.text = editTask.description!;
+    selectedDate = editTask.date!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.app_title),
+        elevation: 0,
       ),
       body: Stack(
         children: [
+          Container(
+            color: AppTheme.primaryLight,
+            width: double.infinity,
+          ),
           Positioned.fill(
             child: Column(
               children: [
@@ -60,7 +85,7 @@ class EditTask extends StatelessWidget {
                 ),
                 InkWell(
                     onTap: () {
-                      // showMyDatePicker();
+                      showMyDatePicker();
                     },
                     child: Text(
                       "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
@@ -68,17 +93,24 @@ class EditTask extends StatelessWidget {
                       style: AppTheme.taskDescriptionTextStyle,
                     )),
                 const Spacer(),
-                //add button
+                //edit button
                 ElevatedButton(
                     onPressed: () {
-                      TaskModel task = TaskModel(
-                          title: titleController.text,
-                          description: descriptionController.text,
-                          date: selectedDate);
-                      // addToDoToFirebase(task);
-                      //FirebaseFunctions.addTask(task);
-                      //listProvider.refreshToDos();
+                      editTask.title = titleController.text;
+                      editTask.description = descriptionController.text;
+                      editTask.date = selectedDate;
+
+                      FirebaseFirestore.instance
+                          .collection(TaskModel.collectionName)
+                          .doc(editTask.id)
+                          .update(editTask.toJsonTask(editTask))
+                          .timeout(const Duration(milliseconds: 500),
+                              onTimeout: () {
+                        listProvider.refreshToDos();
+                      });
+                      listProvider.refreshToDos();
                       Navigator.pop(context);
+                      setState(() {});
                     },
                     child: Text(context.l10n.save_changes))
               ],
@@ -87,5 +119,17 @@ class EditTask extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void showMyDatePicker() async {
+    selectedDate = (await showDatePicker(
+            context: context,
+            initialDate: selectedDate,
+            //this date that appears when open the calender
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(const Duration(days: 365))) ??
+        selectedDate);
+    editTask.date = selectedDate;
+    setState(() {});
   }
 }

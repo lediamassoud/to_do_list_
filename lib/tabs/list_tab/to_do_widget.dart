@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 import 'package:to_do_list/model/task_model.dart';
+import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/screens/edit_task.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
+// ignore: must_be_immutable
 class ToDoWidget extends StatefulWidget {
   TaskModel taskModel;
 
@@ -15,13 +19,11 @@ class ToDoWidget extends StatefulWidget {
 }
 
 class _ToDoWidgetState extends State<ToDoWidget> {
-  late bool done;
-  late bool notDone;
+  late ListProvider listProvider;
 
   @override
   Widget build(BuildContext context) {
-    done = false;
-    notDone = true;
+    listProvider = Provider.of(context);
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.whiteColor,
@@ -36,7 +38,9 @@ class _ToDoWidgetState extends State<ToDoWidget> {
           children: [
             //delete button
             SlidableAction(
-              onPressed: (context) {},
+              onPressed: (context) {
+                deleteTask();
+              },
               backgroundColor: Colors.red,
               borderRadius: BorderRadius.circular(12),
               icon: Icons.delete,
@@ -65,7 +69,9 @@ class _ToDoWidgetState extends State<ToDoWidget> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2),
-                color: done ? AppTheme.greenDone : AppTheme.primaryBlue,
+                color: widget.taskModel.isDone == true
+                    ? AppTheme.greenDone
+                    : AppTheme.primaryBlue,
               ),
               height: MediaQuery.of(context).size.height * 0.07,
               width: MediaQuery.of(context).size.height * 0.005,
@@ -80,8 +86,9 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                   Text(
                     "${widget.taskModel.title}",
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color:
-                            done ? AppTheme.greenDone : AppTheme.primaryBlue),
+                        color: widget.taskModel.isDone == true
+                            ? AppTheme.greenDone
+                            : AppTheme.primaryBlue),
                   ),
                   const SizedBox(
                     height: 8,
@@ -97,22 +104,16 @@ class _ToDoWidgetState extends State<ToDoWidget> {
               children: [
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      if (widget.taskModel.isDone!) {
-                        widget.taskModel.isDone = !(widget.taskModel.isDone!);
-                        notDone = !notDone;
-                      } else {
-                        widget.taskModel.isDone = !(widget.taskModel.isDone!);
-                        done = !done;
-                      }
-                      // checked = !checked;
-                      // unChecked = !unChecked;
-                      print(
-                          "--------------------------------------------------- $done ----- $notDone");
+                    FirebaseFirestore.instance
+                        .collection(TaskModel.collectionName)
+                        .doc(widget.taskModel.id)
+                        .update({"isDone": !widget.taskModel.isDone!}).timeout(
+                            const Duration(milliseconds: 500), onTimeout: () {
+                      listProvider.refreshToDos();
                     });
                   },
                   child: Visibility(
-                    visible: notDone,
+                    visible: !widget.taskModel.isDone!,
                     child: Container(
                       padding: AppTheme.customEdgeInsets(context),
                       margin: AppTheme.customEdgeInsets(context),
@@ -127,18 +128,25 @@ class _ToDoWidgetState extends State<ToDoWidget> {
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: done,
-                  child: Container(
-                    padding: AppTheme.customEdgeInsets(context),
-                    margin: AppTheme.customEdgeInsets(context),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryBlue,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      context.l10n.done,
-                      style: AppTheme.doneTextStyle,
+                InkWell(
+                  onTap: () {
+                    FirebaseFirestore.instance
+                        .collection(TaskModel.collectionName)
+                        .doc(widget.taskModel.id)
+                        .update({"isDone": !widget.taskModel.isDone!}).timeout(
+                            const Duration(milliseconds: 500), onTimeout: () {
+                      listProvider.refreshToDos();
+                    });
+                  },
+                  child: Visibility(
+                    visible: widget.taskModel.isDone!,
+                    child: Container(
+                      padding: AppTheme.customEdgeInsets(context),
+                      margin: AppTheme.customEdgeInsets(context),
+                      child: Text(
+                        context.l10n.done,
+                        style: AppTheme.doneTextStyle,
+                      ),
                     ),
                   ),
                 ),
@@ -148,5 +156,15 @@ class _ToDoWidgetState extends State<ToDoWidget> {
         ),
       ),
     );
+  }
+
+  void deleteTask() {
+    FirebaseFirestore.instance
+        .collection(TaskModel.collectionName)
+        .doc(widget.taskModel.id)
+        .delete()
+        .timeout(const Duration(milliseconds: 500), onTimeout: () {
+      listProvider.refreshToDos();
+    });
   }
 }

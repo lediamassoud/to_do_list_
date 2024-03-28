@@ -6,6 +6,8 @@ import 'package:to_do_list/model/task_model.dart';
 import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
+import '../firebase/firebase_functions.dart';
+
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
 
@@ -63,8 +65,8 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                     title: titleController.text,
                     description: descriptionController.text,
                     date: selectedDate);
-                addToDoToFirebase(task);
-                //FirebaseFunctions.addTask(task);
+                //addToDoToFirebase(task);
+                FirebaseFunctions.addTask(task);
                 //listProvider.refreshToDos();
                 Navigator.pop(context);
               },

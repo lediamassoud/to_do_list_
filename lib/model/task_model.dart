@@ -30,4 +30,14 @@ class TaskModel {
       "isDone": isDone
     };
   }
+
+  Map<String, dynamic> toJsonTask(TaskModel task) {
+    return {
+      "id": task.id,
+      "title": task.title,
+      "description": task.description,
+      "date": task.date,
+      "isDone": task.isDone
+    };
+  }
 }

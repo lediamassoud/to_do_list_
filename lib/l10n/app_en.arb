@@ -14,5 +14,15 @@
 "light": "Light",
 "dark": "Dark",
 "edit_task": "Edit Task",
-"save_changes": "Save Changes"
+"save_changes": "Save Changes",
+"sign_up": "Sign Up",
+"login": "Login",
+"sign_up_new_account": "Sign up new account",
+"user_name": "User Name",
+"email": "Email",
+"password": "Password",
+"confirm_password": "Confirm Password",
+"forget_password": "Forget Password",
+"error_message": "there is something wrong. please, try again"
+
 }

@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:to_do_list/providers/language_provider.dart';
 import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/providers/theme_provider.dart';
+import 'package:to_do_list/screens/auth/login/login.dart';
+import 'package:to_do_list/screens/auth/sign_up/sign_up.dart';
 import 'package:to_do_list/screens/edit_task.dart';
 import 'package:to_do_list/screens/home.dart';
 import 'package:to_do_list/screens/splash.dart';
@@ -64,7 +66,9 @@ class MyApp extends StatelessWidget {
         Home.routeName: (_) => const Home(),
         ListTab.routeName: (_) => ListTab(),
         SettingsTab.routeName: (_) => const SettingsTab(),
-        EditTask.routeName: (_) => EditTask(),
+        EditTask.routeName: (_) => const EditTask(),
+        Login.routeName: (_) => Login(),
+        SignUp.routeName: (_) => SignUp(),
       },
     );
   }

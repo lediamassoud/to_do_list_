@@ -14,5 +14,14 @@
 "light": "نهاري",
 "dark": "ليلي",
 "edit_task": "تعديل المهمة",
-"save_changes": "حفظ التعديلات"
+"save_changes": "حفظ التعديلات",
+"sign_up": "إنشاء حساب جديد",
+"login": "تسجيل الدخول",
+"sign_up_new_account": "إنشاء حساب جديد",
+"user_name": "إسم المستخدم",
+"email": "البريد الإلكتروني",
+"password": "كلمة السر",
+"confirm_password": "تأكيد كلمة السر",
+"forget_password": "نسيت كلمة السر",
+"error_message": "يوجد خطأ ما. من فضلك, حاول مرة اخري"
 }

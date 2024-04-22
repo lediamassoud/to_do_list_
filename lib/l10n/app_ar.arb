@@ -23,5 +23,15 @@
 "password": "كلمة السر",
 "confirm_password": "تأكيد كلمة السر",
 "forget_password": "نسيت كلمة السر",
-"error_message": "يوجد خطأ ما. من فضلك, حاول مرة اخري"
+"error_message": "يوجد خطأ ما. من فضلك, حاول مرة اخري",
+"ok": "تم",
+"error": "خطأ",
+"loading" : "...تحميل",
+"error_email" : ".البريد الإلكتروني موجود بالفعل",
+"error_password" : ".الرقم السري ضعيف للغاية",
+"no_email_found": ".البريد الإلكتروني غير موجود",
+"wrong_password": ".الرقم السري خطأ",
+"internet_not_connected": "الإنترنت غير متصل",
+"go_to_login": "تسجيل الدخول",
+"go_to_signup": "إنشاء حساب جديد"
 }

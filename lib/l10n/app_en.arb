@@ -23,6 +23,15 @@
 "password": "Password",
 "confirm_password": "Confirm Password",
 "forget_password": "Forget Password",
-"error_message": "there is something wrong. please, try again"
-
+"error_message": "there is something wrong. please, try again",
+"ok": "Ok",
+"error": "Error",
+"loading" : "loading...",
+"error_email" : "The account already exists for that email.",
+"error_password" : "The password provided is too weak.",
+"no_email_found": "No user found for that email.",
+"wrong_password": "Wrong password provided for that user.",
+"internet_not_connected": "Internet not connected",
+"go_to_login":"I have account already!\n login",
+"go_to_signup": "I don't have an account? \n sign up now!."
 }

@@ -10,7 +10,7 @@ abstract class AppTheme {
   static const primaryLight = Color(0xffDFECDB);
   static const primaryDark = Color(0xff060E1E);
   static const greenDone = Color(0xff61E757);
-
+  static const Color redColor = Colors.red;
   //text style
 
   static const TextStyle appBareTextStyle =

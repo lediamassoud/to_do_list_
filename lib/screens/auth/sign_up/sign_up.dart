@@ -1,7 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
+import 'package:to_do_list/model/my_user.dart';
+import 'package:to_do_list/screens/auth/login/login.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
+import 'package:to_do_list/utilities/dialog_utilities.dart';
 
 class SignUp extends StatefulWidget {
   static const String routeName = "sign_up";
@@ -111,6 +115,14 @@ class _SignUpState extends State<SignUp> {
                         const Spacer(),
                         const Icon(Icons.arrow_forward),
                       ],
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Login.routeName);
+                    },
+                    child: Text(
+                      context.l10n.go_to_login,
+                      style: TextStyle(decoration: TextDecoration.underline),
                     ))
               ],
             ),
@@ -120,10 +132,35 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void signUpAction() {
+  void signUpAction() async {
     if (!formKey.currentState!.validate()) return;
-    FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    //open 45:51
+    try {
+      DialogUtilities.showLoading(context);
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
+      MyUser.currentUser = MyUser(
+          id: userCredential.user!.uid,
+          userName: userNameController.text,
+          email: emailController.text);
+      await signUpUserToFirebase(MyUser.currentUser!);
+      DialogUtilities.hideLoading(context);
+      Navigator.pushNamed(context, Login.routeName);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        DialogUtilities.showError(context, '');
+      } else if (e.code == 'email-already-in-use') {
+        DialogUtilities.showError(
+            context, 'The account already exists for that email.');
+      } else
+        DialogUtilities.showError(context, context.l10n.error_message);
+    }
+  }
+
+  Future<void> signUpUserToFirebase(MyUser user) async {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection(MyUser.collectionName);
+    DocumentReference documentReference = collectionReference.doc(user.id);
+    documentReference.set(user.toJson());
   }
 }

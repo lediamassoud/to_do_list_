@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
       getUserFromFireStore(credential.user!.uid).then((user) {
         MyUser.currentUser = user;
         DialogUtilities.hideLoading(context);
-        Navigator.pushNamed(context, Home.routeName);
+        Navigator.pushReplacementNamed(context, Home.routeName);
       });
     } on FirebaseAuthException catch (e) {
       DialogUtilities.hideLoading(context);

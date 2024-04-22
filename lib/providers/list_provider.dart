@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../model/my_user.dart';
 import '../model/task_model.dart';
 
 class ListProvider extends ChangeNotifier {
@@ -16,10 +17,13 @@ class ListProvider extends ChangeNotifier {
 
   refreshToDos() async {
     allTasks.clear();
-    CollectionReference todoCollection =
-        FirebaseFirestore.instance.collection(TaskModel.collectionName);
-    QuerySnapshot querySnapshot =
-        await todoCollection.get(); // return all data in collection
+    CollectionReference todoCollection = FirebaseFirestore.instance
+        .collection(MyUser.collectionName)
+        .doc(MyUser.currentUser!.id)
+        .collection(TaskModel.collectionName);
+    QuerySnapshot querySnapshot = await todoCollection
+        .orderBy("date")
+        .get(); // return all data in collection
     List<QueryDocumentSnapshot<Object?>> docList = querySnapshot.docs;
     for (QueryDocumentSnapshot doc in docList) {
       Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
@@ -34,5 +38,11 @@ class ListProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void clear() {
+    allTasks = [];
+    selectedDate = DateTime.now();
+    MyUser.currentUser = null;
   }
 }

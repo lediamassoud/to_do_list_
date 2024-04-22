@@ -145,7 +145,7 @@ class _SignUpState extends State<SignUp> {
           email: emailController.text);
       await signUpUserToFirebase(MyUser.currentUser!);
       DialogUtilities.hideLoading(context);
-      Navigator.pushNamed(context, Login.routeName);
+      Navigator.pushReplacementNamed(context, Login.routeName);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         DialogUtilities.showError(context, '');

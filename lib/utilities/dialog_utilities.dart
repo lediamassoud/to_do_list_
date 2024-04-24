@@ -7,6 +7,7 @@ abstract class DialogUtilities {
   static void showLoading(BuildContext context) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
             content: Row(

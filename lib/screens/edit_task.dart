@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
+import 'package:to_do_list/providers/theme_provider.dart';
 
+import '../model/my_user.dart';
 import '../model/task_model.dart';
 import '../providers/list_provider.dart';
 import '../utilities/app_theme.dart';
@@ -24,12 +26,13 @@ class _EditTaskState extends State<EditTask> {
   TextEditingController descriptionController = TextEditingController();
 
   late ListProvider listProvider;
+  late ThemeProvider themeProvider;
   late TaskModel editTask;
 
   @override
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
-
+    themeProvider = Provider.of(context);
     editTask = ModalRoute.of(context)!.settings.arguments as TaskModel;
     titleController.text = editTask.title!;
     descriptionController.text = editTask.description!;
@@ -43,7 +46,9 @@ class _EditTaskState extends State<EditTask> {
       body: Stack(
         children: [
           Container(
-            color: AppTheme.primaryLight,
+            color: themeProvider.isDark
+                ? AppTheme.primaryDark
+                : AppTheme.primaryLight,
             width: double.infinity,
           ),
           Positioned.fill(
@@ -62,7 +67,9 @@ class _EditTaskState extends State<EditTask> {
           Container(
             height: MediaQuery.of(context).size.height * 0.45,
             padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-            color: AppTheme.whiteColor,
+            color: themeProvider.isDark
+                ? AppTheme.secondaryBlue
+                : AppTheme.primaryLight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -90,7 +97,11 @@ class _EditTaskState extends State<EditTask> {
                     child: Text(
                       "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
                       textAlign: TextAlign.center,
-                      style: AppTheme.taskDescriptionTextStyle,
+                      style: AppTheme.taskDescriptionTextStyle.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primaryBlue,
+                        decoration: TextDecoration.underline,
+                      ),
                     )),
                 const Spacer(),
                 //edit button
@@ -101,16 +112,16 @@ class _EditTaskState extends State<EditTask> {
                       editTask.date = selectedDate;
 
                       FirebaseFirestore.instance
+                          .collection(MyUser.collectionName)
+                          .doc(MyUser.currentUser!.id)
                           .collection(TaskModel.collectionName)
                           .doc(editTask.id)
                           .update(editTask.toJsonTask(editTask))
-                          .timeout(const Duration(milliseconds: 500),
-                              onTimeout: () {
+                          .then((_) {
                         listProvider.refreshToDos();
+                        Navigator.pop(context);
+                        setState(() {});
                       });
-                      listProvider.refreshToDos();
-                      Navigator.pop(context);
-                      setState(() {});
                     },
                     child: Text(context.l10n.save_changes))
               ],

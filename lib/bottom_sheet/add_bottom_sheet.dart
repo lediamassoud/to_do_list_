@@ -5,6 +5,7 @@ import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 import 'package:to_do_list/model/my_user.dart';
 import 'package:to_do_list/model/task_model.dart';
 import 'package:to_do_list/providers/list_provider.dart';
+import 'package:to_do_list/providers/theme_provider.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -20,16 +21,19 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   TextEditingController descriptionController = TextEditingController();
 
   late ListProvider listProvider;
+  late ThemeProvider themeProvider;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
-    ;
+    themeProvider = Provider.of(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.45,
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+      color:
+          themeProvider.isDark ? AppTheme.secondaryBlue : AppTheme.primaryLight,
       child: Form(
         key: formKey,
         child: Column(
@@ -41,7 +45,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
 
             TextFormField(
               validator: (text) {
-                if (text == null || text.trim().isEmpty || text.length < 6) {
+                if (text == null || text.trim().isEmpty) {
                   return context.l10n.error_message;
                 }
               },
@@ -50,7 +54,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
             ),
             TextFormField(
               validator: (text) {
-                if (text == null || text.trim().isEmpty || text.length < 6) {
+                if (text == null || text.trim().isEmpty) {
                   return context.l10n.error_message;
                 }
               },
@@ -70,7 +74,11 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                 child: Text(
                   "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
                   textAlign: TextAlign.center,
-                  style: AppTheme.taskDescriptionTextStyle,
+                  style: AppTheme.taskDescriptionTextStyle.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primaryBlue,
+                    decoration: TextDecoration.underline,
+                  ),
                 )),
             const Spacer(),
             //add button
@@ -82,7 +90,6 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
                       date: selectedDate);
                   addToDoToFirebase(task);
                   //FirebaseFunctions.addTask(task);
-                  //listProvider.refreshToDos();
                   Navigator.pop(context);
                 },
                 child: Text(context.l10n.add))
@@ -110,7 +117,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
         .collection(MyUser.collectionName)
         .doc(MyUser.currentUser!.id)
         .collection(TaskModel.collectionName);
-    DocumentReference docRef = toDoCollection.doc();
+    DocumentReference docRef = toDoCollection.doc(); //////////
     task.id = docRef.id;
 
     docRef.set(task.toJson()).then((_) => listProvider.refreshToDos());

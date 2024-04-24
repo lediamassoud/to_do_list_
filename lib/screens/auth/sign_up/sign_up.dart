@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 import 'package:to_do_list/model/my_user.dart';
+import 'package:to_do_list/providers/theme_provider.dart';
 import 'package:to_do_list/screens/auth/login/login.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 import 'package:to_do_list/utilities/dialog_utilities.dart';
@@ -17,6 +19,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  late ThemeProvider themeProvider;
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -27,6 +30,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.app_title),
@@ -44,8 +48,16 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextFormField(
                   controller: userNameController,
-                  decoration:
-                      InputDecoration(labelText: context.l10n.user_name),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.user_name,
+                      labelStyle: TextStyle(
+                          fontSize: 18,
+                          color: themeProvider.isDark
+                              ? AppTheme.secondaryBlue
+                              : AppTheme.primaryDark),
+                      border: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppTheme.primaryLight))),
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return context.l10n.error_message;
@@ -55,7 +67,14 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextFormField(
                   controller: emailController,
-                  decoration: InputDecoration(labelText: context.l10n.email),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.email,
+                    labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: themeProvider.isDark
+                            ? AppTheme.secondaryBlue
+                            : AppTheme.primaryDark),
+                  ),
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return context.l10n.error_message;
@@ -76,6 +95,11 @@ class _SignUpState extends State<SignUp> {
                   controller: passwordController,
                   decoration: InputDecoration(
                     labelText: context.l10n.password,
+                    labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: themeProvider.isDark
+                            ? AppTheme.secondaryBlue
+                            : AppTheme.primaryDark),
                   ),
                   validator: (text) {
                     if (text == null ||
@@ -91,8 +115,14 @@ class _SignUpState extends State<SignUp> {
                   enableSuggestions: false,
                   autocorrect: false,
                   controller: confirmPasswordController,
-                  decoration:
-                      InputDecoration(labelText: context.l10n.confirm_password),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.confirm_password,
+                    labelStyle: TextStyle(
+                        fontSize: 18,
+                        color: themeProvider.isDark
+                            ? AppTheme.secondaryBlue
+                            : AppTheme.primaryDark),
+                  ),
                   validator: (text) {
                     if (text == null ||
                         text.trim().isEmpty ||

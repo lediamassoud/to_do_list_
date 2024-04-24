@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/extention_function/extention_function_l10n.dart';
 import 'package:to_do_list/model/my_user.dart';
+import 'package:to_do_list/providers/theme_provider.dart';
 import 'package:to_do_list/screens/auth/sign_up/sign_up.dart';
 import 'package:to_do_list/utilities/dialog_utilities.dart';
 
@@ -21,6 +23,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  late ThemeProvider themeProvider;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -28,6 +31,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.app_title),
@@ -41,11 +45,20 @@ class _LoginState extends State<Login> {
               children: [
                 Text(
                   context.l10n.login,
-                  style: AppTheme.taskTitleTextStyle,
+                  style: AppTheme.taskTitleTextStyle.copyWith(
+                      color: themeProvider.isDark
+                          ? AppTheme.primaryBlue
+                          : AppTheme.primaryLight),
                 ),
                 TextFormField(
                   controller: emailController,
-                  decoration: InputDecoration(labelText: context.l10n.email),
+                  decoration: InputDecoration(
+                      labelText: context.l10n.email,
+                      labelStyle: TextStyle(
+                          fontSize: 18,
+                          color: themeProvider.isDark
+                              ? AppTheme.secondaryBlue
+                              : AppTheme.primaryDark)),
                   validator: (text) {
                     if (text == null || text.trim().isEmpty) {
                       return context.l10n.error_message;
@@ -65,8 +78,12 @@ class _LoginState extends State<Login> {
                   autocorrect: false,
                   controller: passwordController,
                   decoration: InputDecoration(
-                    labelText: context.l10n.password,
-                  ),
+                      labelText: context.l10n.password,
+                      labelStyle: TextStyle(
+                          fontSize: 18,
+                          color: themeProvider.isDark
+                              ? AppTheme.secondaryBlue
+                              : AppTheme.primaryDark)),
                   validator: (text) {
                     if (text == null ||
                         text.trim().isEmpty ||
@@ -125,9 +142,7 @@ class _LoginState extends State<Login> {
       } else {
         try {
           final result = await InternetAddress.lookup('example.com');
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            print('========Internet connected==========');
-          }
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
         } on SocketException catch (_) {
           DialogUtilities.showError(context, "Internet not connected");
         }
@@ -139,10 +154,11 @@ class _LoginState extends State<Login> {
     CollectionReference collectionReference =
         FirebaseFirestore.instance.collection(MyUser.collectionName);
     DocumentReference userDoc = collectionReference.doc(id);
-    print("=============== $id");
     DocumentSnapshot documentSnapshot = await userDoc.get();
+    if (documentSnapshot.data() == null) {
+      DialogUtilities.showError(context, "user not found, sign up now");
+    }
     Map json = documentSnapshot.data() as Map;
-    print("=============== $documentSnapshot");
     MyUser myUser = MyUser.fromJson(json);
     return myUser;
   }

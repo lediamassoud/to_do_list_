@@ -8,6 +8,8 @@ import 'package:to_do_list/providers/list_provider.dart';
 import 'package:to_do_list/screens/edit_task.dart';
 import 'package:to_do_list/utilities/app_theme.dart';
 
+import '../../model/my_user.dart';
+
 // ignore: must_be_immutable
 class ToDoWidget extends StatefulWidget {
   TaskModel taskModel;
@@ -160,11 +162,14 @@ class _ToDoWidgetState extends State<ToDoWidget> {
 
   void deleteTask() {
     FirebaseFirestore.instance
+        .collection(MyUser.collectionName)
+        .doc(MyUser.currentUser!.id)
         .collection(TaskModel.collectionName)
         .doc(widget.taskModel.id)
         .delete()
-        .timeout(const Duration(milliseconds: 500), onTimeout: () {
+        .then((_) {
       listProvider.refreshToDos();
+      setState(() {});
     });
   }
 }

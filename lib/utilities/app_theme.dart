@@ -84,7 +84,7 @@ abstract class AppTheme {
           titleLarge: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 30, color: primaryBlue),
           titleMedium: TextStyle(
-              fontWeight: FontWeight.w500, fontSize: 25, color: blackLight),
+              fontWeight: FontWeight.w500, fontSize: 25, color: blackColor),
           titleSmall: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 20,

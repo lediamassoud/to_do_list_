@@ -76,8 +76,6 @@ abstract class AppTheme {
         backgroundColor: primaryBlue,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          // showSelectedLabels: false,
-          // showUnselectedLabels: false,
           selectedItemColor: primaryDark,
           unselectedItemColor: Colors.white30),
       textTheme: const TextTheme(

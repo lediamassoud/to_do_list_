@@ -1,6 +1,7 @@
 # to_do_list
-
-A new Flutter project.
+using in this app
+Third-Party libraries
+Firebase – cloud firestore - firebase authentication
 
 ## Getting Started
 
